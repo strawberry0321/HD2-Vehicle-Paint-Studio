@@ -1,0 +1,40 @@
+// Reuse the existing controls and their IDs; present one editing task at a time.
+(()=>{
+ const $=s=>document.querySelector(s),move=(node,parent)=>{if(node)parent.append(node);},make=(tag,cls,html='')=>{const n=document.createElement(tag);n.className=cls;n.innerHTML=html;return n;};
+ const inspector=$('.inspector'),scroll=$('.inspector-scroll'),tabs=make('nav','inspector-tabs','<button data-inspector="assets">素材</button><button data-inspector="decal">贴花</button><button data-inspector="color">配色</button><button data-inspector="layers">图层</button>');
+ inspector.insertBefore(tabs,scroll);const panels={};for(const key of ['assets','decal','color','layers']){panels[key]=make('div','inspector-pane');panels[key].dataset.pane=key;scroll.append(panels[key]);}
+ const library=$('#assets').closest('section'),position=$('#decalScale').closest('section');move(library,panels.assets);
+ const quick=make('section','layer-quick','<div class="layer-preview"><img id="currentAssetThumb" alt=""><div><small>选中的贴花</small><strong id="currentLayerName">单击模型上的贴花</strong></div></div><div class="quick-actions"><button id="chooseReplacement">换图</button><button id="cropDecal">裁剪</button></div>');move(quick,panels.decal);
+ const projection=$('#projectionPanel');projection.open=true;move(projection,panels.decal);move(position,panels.decal);
+ move($('#groupPalette'),panels.color);$('#groupPalette').open=true;move($('#faceBaseDetails'),panels.color);move($('#layerStack'),panels.layers);$('#layerStack').open=true;
+ const sourceInfo=$('#affectedList')?.closest('details');if(sourceInfo){sourceInfo.hidden=true;panels.color.append(sourceInfo);}
+ scroll.replaceChildren(...Object.values(panels));
+ let active='assets';function show(name){active=panels[name]?name:'assets';for(const [key,pane] of Object.entries(panels))pane.hidden=key!==active;tabs.querySelectorAll('button').forEach(b=>b.classList.toggle('active',b.dataset.inspector===active));scroll.scrollTop=0;document.body.dataset.inspector=active;}
+ tabs.onclick=e=>{const b=e.target.closest('[data-inspector]');if(b)show(b.dataset.inspector);};window.layoutV7={show,get active(){return active;}};show('assets');
+ $('#groupPalette').querySelector('.color-scope')?.remove();$('#groupPalette').querySelector('.quiet')?.remove();
+ const areaNote=make('p','area-image-note','拖动中心柄在选区内移动图片；四角缩放，圆柄旋转。');areaNote.hidden=true;projection.prepend(areaNote);const controls=$('.projection-controls'),follow=$('#followSurface').closest('label'),cross=$('#allowCrossSide').closest('label');follow.hidden=cross.hidden=true;follow.nextElementSibling?.matches('.quiet')&&(follow.nextElementSibling.hidden=true);cross.nextElementSibling?.matches('.quiet')&&(cross.nextElementSibling.hidden=true);
+ const attachment=make('label','attachment-select','<span>移动方式</span><select id="attachmentMode"><option value="locked">沿面移动 · 锁定当前侧</option><option value="surface">跨面移动 · 可拖至车顶</option><option value="manual">手动投射 · 自由三轴姿态</option></select>');controls.prepend(attachment);const note=make('p','control-note','拖动中心移动；需要从侧面移到顶部时，切换“跨面移动”。');attachment.after(note);
+ const depth=$('#projectionDepth'),depthRow=depth.closest('label');depthRow.classList.add('depth-row');const depthRange=make('input','');depthRange.id='projectionDepthRange';depthRange.type='range';depthRange.min='.01';depthRange.max='400';depthRange.step='.01';depthRange.value=depth.value;depth.before(depthRange);
+ const advanced=make('details','advanced-controls','<summary>范围与尺寸</summary>');controls.append(advanced);
+ const scope=$('#projectionScope').closest('label');scope.classList.add('scope-row');move(scope,advanced);move($('#projectionTargets'),advanced);
+ const dimensionRows=[...controls.querySelectorAll('.projection-dimensions')];if(dimensionRows[0])move(dimensionRows[0],advanced);move($('#lockAspect').closest('label'),advanced);
+ move($('#projectionType').closest('label'),advanced);move($('#cylinderAxisRow'),advanced);move($('#cylinderRadiusRow'),advanced);move($('.projection-actions'),advanced);$('#projectionStatus').hidden=true;
+ const pose=make('div','pose-card','<div class="control-heading"><b>三轴旋转</b><button id="poseTool" title="显示三轴旋转手柄">旋转手柄</button></div><div class="pose-fields"></div>');const poseFields=pose.querySelector('.pose-fields');
+ for(const [id,label,axis] of [['projectionPitch','X · 俯仰','x'],['projectionYaw','Y · 转向','y'],['angleNumber','Z · 平面','z']]){const input=$('#'+id),row=make('label','axis-field axis-'+axis,'<span>'+label+'</span>');input.min='-3600';input.max='3600';input.step='.5';move(input,row);row.append(make('small','','°'));poseFields.append(row);}
+ if(dimensionRows[1])dimensionRows[1].remove();controls.insertBefore(pose,depthRow);
+ const manual=make('div','manual-position','<div class="control-heading"><b>空间位置</b><small>模型长边 %</small></div><div class="pose-fields">'+[['X','左右'],['Y','高度'],['Z','前后']].map(([axis,label])=>'<label class="axis-field"><span>'+axis+' · '+label+'</span><input id="position'+axis+'" type="number" step=".1" min="-2000" max="2000"></label>').join('')+'</div>');controls.insertBefore(manual,pose);
+ const hidden=make('div','compatibility-controls');hidden.hidden=true;scroll.append(hidden);move($('#decalAngle'),hidden);
+ position.querySelector('.edit-label').hidden=true;position.querySelector('.quiet').hidden=true;$('#activeLayerLabel').hidden=true;$('#patternColorPanel').classList.add('pattern-color-compact');
+ const fit=position.querySelector('.fit-buttons');fit.hidden=true;const rows=[...position.querySelectorAll('.numeric-row')];for(const row of rows)if(row.querySelector('#decalAngle')||row.querySelector('#angleNumber')||!row.querySelector('input'))row.hidden=true;
+ const remainingAngle=rows.find(r=>r.textContent.includes('旋转'));if(remainingAngle)remainingAngle.hidden=true;
+ const surfaceMove=make('div','surface-position');move($('#decalX').closest('label'),surfaceMove);move($('#decalY').closest('label'),surfaceMove);pose.before(surfaceMove);
+ $('.layer-actions').classList.add('quiet-actions');
+ $('#parts').closest('section').classList.add('parts-panel');$('#vehicles').closest('section').classList.add('vehicle-panel');
+ $('#replaceAsset').hidden=true;const exportButton=$('#exportMod');exportButton.classList.remove('primary');exportButton.textContent='导出当前载具';const exportDock=make('div','export-dock');exportDock.append(exportButton,make('button','export-advanced','高级导出…'));exportDock.lastChild.id='exportAdvanced';$('.sidebar').append(exportDock);$('#exportFamily').hidden=$('#exportCategory').hidden=true;
+ $('.interaction-note').textContent='左键选贴花 · 拖动查看';$('.workspace-note').hidden=true;$('.side-footer').hidden=true;
+ const gizmo=$('#decalGizmo');for(const [axis,label] of [['pitch','X'],['yaw','Y'],['roll','Z']]){const b=make('button','pose-handle axis-'+label.toLowerCase(),label);b.dataset.gizmo='pose';b.dataset.axis=axis;b.title='拖动旋转 '+label+' 轴';b.hidden=true;gizmo.append(b);}
+ const menu=$('#surfaceMenu');for(const button of menu.querySelectorAll('[data-action]')){const action=button.dataset.action;button.dataset.menuMode=['color','expand','face','clear'].includes(action)?'area':'both';}
+ for(const [action,label] of [['crop','裁剪贴花'],['replace','更换图片'],['duplicate','复制贴花'],['reanchor','重新定位到其他表面']]){const button=make('button','',label);button.dataset.action=action;button.dataset.menuMode='decal';menu.insertBefore(button,$('#contextDelete'));}
+ document.body.append(make('div','asset-context','<button id="removeLibraryAsset">从素材库删除</button><small>已放置的贴花与历史工程保留</small>'));$('.asset-context').id='assetMenu';$('.asset-context').hidden=true;
+ const dialog=make('dialog','crop-dialog','<h2>裁剪贴花</h2><p>拖动框角或内部调整裁剪范围，原图保留。</p><div id="cropStage"><img id="cropImage" alt="原图"><div id="cropRect">'+[0,1,2,3].map(i=>'<button data-crop-corner="'+i+'"></button>').join('')+'</div></div><div class="crop-actions"><button id="resetCrop">还原整图</button><button id="cancelCrop">取消</button><button id="applyCrop" class="primary">应用裁剪</button></div>');dialog.id='cropDialog';document.body.append(dialog);
+})();

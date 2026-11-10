@@ -1,0 +1,25 @@
+
+.area-image-note{font-size:11px;line-height:1.8;color:#7c8d9e;margin:0 0 14px}
+body[data-layer-placement=area] .attachment-select,body[data-layer-placement=area] .control-note,body[data-layer-placement=area] .depth-row,body[data-layer-placement=area] .pose-fields .axis-x,body[data-layer-placement=area] .pose-fields .axis-y,body[data-layer-placement=area] .scope-row,body[data-layer-placement=area] #projectionTargets,body[data-layer-placement=area] .projection-type-row,body[data-layer-placement=area] #cylinderAxisRow,body[data-layer-placement=area] #cylinderRadiusRow{display:none!important}
+body[data-layer-placement=area] .pose-card .pose-fields{grid-template-columns:1fr}
+body[data-layer-placement=area] .pose-card .axis-z{grid-template-columns:1fr 80px auto}
+body[data-layer-placement=area] .pose-card .axis-z>span{grid-column:auto}
+
+#sensitivityDialog{width:430px;max-width:90vw}#sensitivityDialog p{font-size:12px}.sensitivity-row{display:grid;grid-template-columns:52px 1fr 45px;align-items:center;gap:10px;margin:16px 0}.sensitivity-row input{margin:0;padding:0;width:100%;accent-color:#8599ac}.sensitivity-row output{font-size:12px;text-align:right}#sensitivityButton{font-size:10px}.view-toolbar{flex-wrap:wrap}
+
+/* Keep all three work areas inside the window when the area toolbar wraps. */
+body{display:grid;grid-template-rows:auto minmax(0,1fr) auto}
+main{height:auto!important;min-height:0;grid-template-rows:minmax(0,1fr)}
+main>.workspace,main>.sidebar,main>.inspector{min-height:0}
+main>.sidebar,main>.inspector{width:auto!important}
+.workspace-heading,.decal-toolbar,.face-toolbar,.view-toolbar{flex-shrink:0}
+#viewport{flex:1 1 0;min-height:0}
+.inspector-scroll{min-height:0}
+.vehicle-panel{min-height:100px;flex:1 1 40%}
+.parts-panel{min-height:80px;flex:0 1 200px;overflow:hidden}
+.parts-panel .part-list{min-height:0;flex:1;overflow-y:auto}
+.accessory-section{min-height:32px;max-height:150px;flex:0 1 auto}
+.export-dock{margin-top:auto}
+.background-choice{display:flex;align-items:center;gap:5px;font-size:10px;color:#7d8b99;margin-right:6px;white-space:nowrap}.background-choice select{font:inherit;color:#65788b;background:#faf9f6;border:1px solid #d5dbe1;border-radius:5px;padding:5px}
+.damage-warn{display:inline-block;margin-left:6px;padding:1px 5px;border-radius:4px;background:#fff1dc;color:#a45c00;font-size:9px;font-style:normal;font-weight:600;vertical-align:middle}
+.cover-warn{display:inline-block;margin-left:4px;padding:1px 5px;border-radius:4px;background:#ffe9e9;color:#a52a2a;font-size:9px;font-style:normal;font-weight:600;vertical-align:middle}

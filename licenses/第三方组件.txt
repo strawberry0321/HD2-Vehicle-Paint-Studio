@@ -1,0 +1,8 @@
+Three.js — MIT，见 Three.js-LICENSE.txt。
+Filediver — MIT，见 Filediver-LICENSE.txt。
+DirectXTex texconv — MIT，见DirectXTex-Go-LICENSE.txt。
+Python 3.12 — PSF，见 Python-LICENSE.txt。
+NumPy / Pillow 许可证在 runtime/Lib/site-packages 各自 dist-info 中。
+Microsoft WebView2 SDK 许可证见 WebView2-LICENSE.txt。
+桌面宿主需要 .NET Framework 4.8 与 WebView2 运行时。
+

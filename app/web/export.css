@@ -1,0 +1,14 @@
+#exportDialog{width:620px;max-width:calc(100vw - 40px);max-height:calc(100vh - 40px);overflow:auto;line-height:1.7}
+#exportDialog h2{margin-bottom:16px}
+#exportDialog label{margin:12px 0 6px;font-weight:500}
+#exportDialog input{display:block;width:100%;min-width:0;margin:0;padding:9px 10px;box-sizing:border-box}
+#exportDialog input:disabled{background:#f1f1ef}
+#exportDialog .export-folder-row{display:grid;grid-template-columns:minmax(0,1fr) auto auto;gap:7px}
+#exportDialog .export-folder-row button{padding:7px 10px}
+#exportDestinationPreview{display:block;overflow-wrap:anywhere;background:#f0f1f3;border-radius:5px;margin:8px 0;padding:7px 10px;min-height:32px;font-size:11px;color:#717d8e}
+#exportSaveError{color:#9b4d4d;background:#f8eded;padding:8px 10px;border-radius:5px;font-size:12px}
+#exportDialog #exportContents{max-height:105px;overflow:auto;margin:6px 0;padding-left:22px}
+#exportDialog #exportSummary{margin:8px 0;font-size:11px}
+#exportDialog .export-dialog-actions{display:flex;justify-content:flex-end;gap:9px;margin-top:16px}
+@media(max-width:620px){#exportDialog{padding:18px}#exportDialog .export-folder-row{grid-template-columns:minmax(0,1fr) auto}#resetExportDirectory{grid-column:1 / -1;justify-self:start}}
+#exportProgress{width:100%;height:12px;margin:14px 0 4px;accent-color:#477da0}#exportDetail,#exportBackup{font-size:13px;line-height:1.6;color:#5c6875}#stopExport{margin-top:14px;min-height:36px}#exportBackup{color:#27704e}

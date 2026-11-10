@@ -1,0 +1,188 @@
+package stingray
+
+import (
+	"cmp"
+	"encoding/binary"
+	"encoding/hex"
+	"fmt"
+	"strconv"
+	"strings"
+)
+
+type Hash struct{ Value uint64 }
+
+func murmur64aSum(b []byte) Hash {
+	var seed uint64 = 0
+	var mix uint64 = 0xc6a4a7935bd1e995
+	const shifts = 47
+
+	var hash uint64 = seed ^ (uint64(len(b)) * mix)
+
+	for len(b) >= 8 {
+		key := binary.LittleEndian.Uint64(b)
+		b = b[8:]
+
+		key *= mix
+		key ^= key >> shifts
+		key *= mix
+
+		hash ^= key
+		hash *= mix
+	}
+
+	switch len(b) & 7 /* we know len(b) <= 7, but just so the compiler knows it can optimize this */ {
+	case 7:
+		hash ^= uint64(b[6]) << uint64(8*6)
+		fallthrough
+	case 6:
+		hash ^= uint64(b[5]) << uint64(8*5)
+		fallthrough
+	case 5:
+		hash ^= uint64(b[4]) << uint64(8*4)
+		fallthrough
+	case 4:
+		hash ^= uint64(b[3]) << uint64(8*3)
+		fallthrough
+	case 3:
+		hash ^= uint64(b[2]) << uint64(8*2)
+		fallthrough
+	case 2:
+		hash ^= uint64(b[1]) << uint64(8*1)
+		fallthrough
+	case 1:
+		hash ^= uint64(b[0])
+		hash *= mix
+	}
+
+	// Equivalent to the above switch statement, but a decent bit slower.
+	/*if len(b) > 0 {
+		for i := len(b) - 1; i >= 0; i-- {
+			hash ^= uint64(b[i]) << uint64(8*i)
+		}
+		hash *= mix
+	}*/
+
+	hash ^= hash >> shifts
+
+	hash *= mix
+	hash ^= hash >> shifts
+
+	return Hash{Value: hash}
+}
+
+// Murmur64a hash
+func Sum[T ~[]byte | string](x T) Hash {
+	return murmur64aSum([]byte(x))
+}
+
+// 64-bit hash to 32-bit hash
+func (h Hash) Thin() ThinHash {
+	return ThinHash{Value: uint32(h.Value >> 32)}
+}
+
+func (h Hash) StringEndian(endian binary.ByteOrder) string {
+	var b [8]byte
+	endian.PutUint64(b[:], h.Value)
+	return hex.EncodeToString(b[:])
+}
+
+func (h Hash) String() string {
+	return "0x" + h.StringEndian(binary.BigEndian)
+}
+
+func (h Hash) MarshalText() ([]byte, error) {
+	return []byte(h.String()), nil
+}
+
+func (h Hash) Cmp(other Hash) int {
+	return cmp.Compare(h.Value, other.Value)
+}
+
+// ParseHash parses a big endian murmur64 hash.
+// Ignores 0x prefix if present.
+func ParseHash(s string) (Hash, error) {
+	s = strings.TrimPrefix(s, "0x")
+	x, err := strconv.ParseUint(s, 16, 64)
+	if err != nil {
+		return Hash{}, fmt.Errorf("parsing hash: %w", err)
+	}
+	return Hash{Value: x}, nil
+}
+
+// ParseHash parses a big endian murmur32 hash.
+// Ignores 0x prefix if present.
+func ParseThinHash(s string) (ThinHash, error) {
+	s = strings.TrimPrefix(s, "0x")
+	x, err := strconv.ParseUint(s, 16, 32)
+	if err != nil {
+		return ThinHash{}, fmt.Errorf("parsing thin hash: %w", err)
+	}
+	return ThinHash{Value: uint32(x)}, nil
+}
+
+// ParseOrSum parses a big endian murmur64 hash when prefixed with 0x
+// Otherwise, it will sum the input string and return the resulting hash
+func ParseOrSum(s string) (Hash, error) {
+	if found := strings.HasPrefix(s, "0x"); found {
+		return ParseHash(s)
+	}
+	return Sum(s), nil
+}
+
+// ParseThinOrSum parses a big endian murmur32 hash when prefixed with 0x
+// Otherwise, it will sum the input string and return the resulting hash
+func ParseThinOrSum(s string) (ThinHash, error) {
+	if found := strings.HasPrefix(s, "0x"); found {
+		return ParseThinHash(s)
+	}
+	return Sum(s).Thin(), nil
+}
+
+func cleanupHashForParse(s string) string {
+	s, has0x := strings.CutPrefix(s, "0x")
+	var b strings.Builder
+	b.Grow(len(s))
+	if has0x {
+		b.WriteString("0x")
+	}
+	for _, r := range s {
+		if (r >= 'a' && r <= 'z') ||
+			(r >= 'A' && r <= 'Z') ||
+			(r >= '0' && r <= '9') {
+			b.WriteRune(r)
+		}
+	}
+	return b.String()
+}
+
+// Like ParseHash, but ignores any non-alphanumeric
+// characters.
+func ParseHashLax(s string) (Hash, error) {
+	return ParseHash(cleanupHashForParse(s))
+}
+
+// Like ParseThinHash, but ignores any non-alphanumeric
+// characters.
+func ParseHashThinLax(s string) (ThinHash, error) {
+	return ParseThinHash(cleanupHashForParse(s))
+}
+
+type ThinHash struct{ Value uint32 }
+
+func (h ThinHash) StringEndian(endian binary.ByteOrder) string {
+	var b [4]byte
+	endian.PutUint32(b[:], h.Value)
+	return hex.EncodeToString(b[:])
+}
+
+func (h ThinHash) String() string {
+	return "0x" + h.StringEndian(binary.BigEndian)
+}
+
+func (h ThinHash) MarshalText() ([]byte, error) {
+	return []byte(h.String()), nil
+}
+
+func (h ThinHash) Cmp(other ThinHash) int {
+	return cmp.Compare(h.Value, other.Value)
+}

@@ -1,0 +1,139 @@
+{
+  "repository": "https://github.com/xypwn/filediver",
+  "commit": "9f52b0e6c2dac074c121f5c295c53b27cb20f262",
+  "scope": "Only the Go packages used by native/reader; no upstream app, tests or unrelated assets.",
+  "files": [
+    {
+      "path": "dds/color.go",
+      "sha256": "d9a828320fbdbe863e53f07cbc1fbecd0cb97af5ea44eac937b8bf4d189dc9f4"
+    },
+    {
+      "path": "dds/dds.go",
+      "sha256": "685c9c469c4550f33ca90cdcd4582fe5d2930443cc9c771cd72e85cd24d34c80"
+    },
+    {
+      "path": "dds/decompress.go",
+      "sha256": "b333b239aaf2cc2d8a792c2ba1915020fecb87d91047172e1f470b83dc14fb2b"
+    },
+    {
+      "path": "dds/dxt10.go",
+      "sha256": "9c63c51092e4299d5272e73441edcc18eec6a0c3487feef0a393df0159e8f4ae"
+    },
+    {
+      "path": "dds/header.go",
+      "sha256": "a047254d4b258c1ae6af6fbc6e64305584e486494254140d12aa3943af166929"
+    },
+    {
+      "path": "go.mod",
+      "sha256": "a5b4be8f6b7c522b435561e63735c590e3ce34933f057926002e4c53b9b48acd"
+    },
+    {
+      "path": "go.sum",
+      "sha256": "2adc8c4482ad3de0136c998eb57cb2f99a82cbaedb90cabb2677a46ff8f57766"
+    },
+    {
+      "path": "LICENSE",
+      "sha256": "a22ef37ecf970411307ce0c72d89f1407d4b8bec9745eab2027d93d39863c770"
+    },
+    {
+      "path": "stingray/archive.go",
+      "sha256": "485c6274697189302cd2171a2fc570a7722a1b736436c5a33b3a71c43d091a1e"
+    },
+    {
+      "path": "stingray/common.go",
+      "sha256": "2520f83f85896ee3220a6f891c4528dbc88f326e6e18fbd1d76a1f933d5246e3"
+    },
+    {
+      "path": "stingray/dir.go",
+      "sha256": "5ab53718ecb18d503e929dc31ee9b31dfb89cc98448f07f65fb6057bc61fc7ac"
+    },
+    {
+      "path": "stingray/fat_edition.go",
+      "sha256": "0c11ec57acec4c27b072c461cf74c70c3d02a3a5f0f4041b56310751b76c4a37"
+    },
+    {
+      "path": "stingray/hash.go",
+      "sha256": "3206b6f98f75401266f6ce374a5b41c1fa8e491d36e6b8c606df48d7b369cbd5"
+    },
+    {
+      "path": "stingray/slim_edition.go",
+      "sha256": "f1166bfc1e361d8326a0fe819475a4109a782d77d8c5e19f3bab3858397ca93b"
+    },
+    {
+      "path": "stingray/unit/geometry_group/geometry_group.go",
+      "sha256": "8f4117252d69b709ffd0cff96668c60bb950e261fb03ecbb34ec1dae3ef2d956"
+    },
+    {
+      "path": "stingray/unit/material/d3d/dxbc.go",
+      "sha256": "3c4b78115fd2c457685649dd7217c6e629a7e6b4a9ab2adb5bcb8cdb060f863e"
+    },
+    {
+      "path": "stingray/unit/material/d3d/enums.go",
+      "sha256": "ab58eea4751c52598ae05f05fc84873d955b7cad5599d476a3ee1e46b8e7f770"
+    },
+    {
+      "path": "stingray/unit/material/d3d/opcodes/customdata.go",
+      "sha256": "3968b970d2ab374da2d6a12aaadc4cf359c8acc67803d15de3212e675890fa97"
+    },
+    {
+      "path": "stingray/unit/material/d3d/opcodes/declarations.go",
+      "sha256": "c755fd793170429c73c7d15077618f45b3501fadc96f12b72c07935524230a4e"
+    },
+    {
+      "path": "stingray/unit/material/d3d/opcodes/instructionToken.go",
+      "sha256": "6197c84a7a16c692bb41d17b725e02880021d661059f9d6059d188f7ef6e289f"
+    },
+    {
+      "path": "stingray/unit/material/d3d/opcodes/opcode.go",
+      "sha256": "f1a30f1d7b724ca8c053a038f0824cf204f12956be2435ebb23b5b25bd5e30c4"
+    },
+    {
+      "path": "stingray/unit/material/d3d/opcodes/operand.go",
+      "sha256": "ff306591dc9d7e3fcde8a7241f085e34e3cada28563356e45ba8abb83df6f648"
+    },
+    {
+      "path": "stingray/unit/material/d3d/opcodes/shadervariableflags_string.go",
+      "sha256": "fbebaff5a1aa275443336ad6ac49c495049d6601b1571348ffe181e2525f3bfa"
+    },
+    {
+      "path": "stingray/unit/material/d3d/opcodes/types.go",
+      "sha256": "26852061d2d46ef9052d1e26e345655f1af5c6718e76156bc29a9904c5b683ec"
+    },
+    {
+      "path": "stingray/unit/material/d3d/types.go",
+      "sha256": "ddc0052276e78e11edf8a4945654c9dc4d5e1eb0b3b73c6e26dbcf83a626cfb9"
+    },
+    {
+      "path": "stingray/unit/material/glsl/uniforms.go",
+      "sha256": "d9d78d0556cf5484a86d9506380a45b9138973d16e5ff4af74b098467890ae3a"
+    },
+    {
+      "path": "stingray/unit/material/material.go",
+      "sha256": "7650217265c253e1bcd7b9463fd2cab3b3997e5618642ca2cea6ca00db52487c"
+    },
+    {
+      "path": "stingray/unit/packed_normal.go",
+      "sha256": "bc90539187ccfce345f1752ea12f44b7b63934f853874b4ce699ac55d539a085"
+    },
+    {
+      "path": "stingray/unit/unit.go",
+      "sha256": "31faf96da9d049d8d293dbc2c12ed317fb25c3c35048a226420a715b4f2a0079"
+    },
+    {
+      "path": "util/cstring.go",
+      "sha256": "11b7486504e8aabd2576d0725d15a15199fa8d0699b40c143537e4f3626b9b39"
+    },
+    {
+      "path": "util/io.go",
+      "sha256": "997edf019be9900ce666fed26b31119bddf7b766e30e9316c346ebedd15cb39a"
+    },
+    {
+      "path": "util/slices.go",
+      "sha256": "e1fa88b87f9a3d8b6e5e7ed79594424d30666407ded77f67bd96aff0f9c44727"
+    },
+    {
+      "path": "util/titlecase.go",
+      "sha256": "2ff5a120bfa13ad64ffdf3437294fc4c55716f341c09ecb606083a2f8ad90e03"
+    }
+  ]
+}
