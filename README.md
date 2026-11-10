@@ -6,7 +6,7 @@
 
 **[下载 Windows 版](https://github.com/strawberry0321/HD2-Vehicle-Paint-Studio/releases/latest)** · [B站：StarAiri](https://space.bilibili.com/437268141)
 
-下载 Release 里的 `载具替换工具_V19_Windows_x64.zip`，完整解压，双击 `载具替换工具.exe`。
+下载 Release 里的 `HD2-Vehicle-Paint-Studio-V19-Windows-x64.zip`，完整解压，双击 `载具替换工具.exe`。
 需要 Windows 10/11 64 位、.NET Framework 4.8 和 Microsoft Edge WebView2 运行时。仓库里的“Download ZIP”是源码，不是完整软件。
 
 ![工作台](docs/screenshots/workbench.png)

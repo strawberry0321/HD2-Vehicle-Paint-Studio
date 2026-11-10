@@ -8,7 +8,7 @@
 在仓库根目录运行：
 
 ```powershell
-python scripts/build.py --base-package "载具替换工具_V19_Windows_x64.zip"
+python scripts/build.py --base-package "HD2-Vehicle-Paint-Studio-V19-Windows-x64.zip"
 ```
 
 生成目录为 `dist/VehiclePaintStudio-19.0.0`。构建会读取基础包、覆盖当前源码并重建桌面窗口和启动程序，输出到独立目录。

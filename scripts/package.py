@@ -4,7 +4,7 @@ import argparse,hashlib,json,zipfile
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('program',type=Path);parser.add_argument('--output',type=Path);args=parser.parse_args()
-    root=args.program.resolve();target=args.output or root.parent/'载具替换工具_V19_Windows_x64.zip'
+    root=args.program.resolve();target=args.output or root.parent/'HD2-Vehicle-Paint-Studio-V19-Windows-x64.zip'
     if target.exists():parser.error('Archive already exists; choose a new output')
     target.parent.mkdir(parents=True,exist_ok=True)
     allowed={'app','runtime','licenses','载具替换工具.exe','settings.json','使用说明.txt','LICENSE','AUTHORSHIP.md','THIRD_PARTY.md'}
